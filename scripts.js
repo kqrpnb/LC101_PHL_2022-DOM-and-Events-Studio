@@ -8,7 +8,6 @@ window.addEventListener("load", function() {
     const landButton = document.getElementById("landing");
     const flightStatus = document.getElementById("flightStatus");
     const rocket = document.getElementById("rocket");
-    const rocketStart = rocket.getBoundingClientRect();
     const shuttleBackground = document.getElementById("shuttleBackground");
     const shuttleHeightParagraph = document.getElementById("spaceShuttleHeight");
     const abortMission = document.getElementById("missionAbort");
@@ -84,12 +83,15 @@ window.addEventListener("load", function() {
 
       moveUp.addEventListener("click", event => {
         if (inSpace === true) {
-            upMove = currentVertical - 10;
+
+            if (currentVertical >= 270000) {
+          upMove = currentVertical - 10;
           currentVertical = upMove;
           rocket.style.transform = `translate(${currentHorizontal}px, ${upMove}px)`;
         spaceShuttleHeight += 10000;
         let heightAsText = new Intl.NumberFormat().format(spaceShuttleHeight);
         shuttleHeightParagraph.innerHTML = `${heightAsText}`;
+            }
         }
   });
 
@@ -103,7 +105,5 @@ window.addEventListener("load", function() {
         shuttleHeightParagraph.innerHTML = `${heightAsText}`;
       }
   });
-
-
 
 });
