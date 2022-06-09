@@ -47,6 +47,8 @@ window.addEventListener("load", function() {
           flightStatus.innerHTML = "The shuttle has landed.";
           shuttleHeightParagraph.innerHTML = `0`;
           shuttleBackground.style.backgroundColor = "green";
+          currentHorizontal = startHorizontal;
+          currentVertical = startVertical;
           rocket.style.transform = `translate(${startHorizontal}px, ${startVertical}px)`;
 
       });
@@ -59,7 +61,9 @@ window.addEventListener("load", function() {
             shuttleBackground.style.backgroundColor = "green";
             let heightAsText = new Intl.NumberFormat().format(spaceShuttleHeight);
             shuttleHeightParagraph.innerHTML = `${heightAsText}`;
-            rocket.style.transform = `translate(${startHorizontal}px, ${startVertical}px)`;
+            currentHorizontal = startHorizontal;
+            currentVertical = startVertical;
+              rocket.style.transform = `translate(${startHorizontal}px, ${startVertical}px)`;
         }
 
       });
@@ -84,19 +88,24 @@ window.addEventListener("load", function() {
       moveUp.addEventListener("click", event => {
         if (inSpace === true) {
 
-            if (currentVertical >= 270000) {
-          upMove = currentVertical - 10;
-          currentVertical = upMove;
-          rocket.style.transform = `translate(${currentHorizontal}px, ${upMove}px)`;
-        spaceShuttleHeight += 10000;
-        let heightAsText = new Intl.NumberFormat().format(spaceShuttleHeight);
-        shuttleHeightParagraph.innerHTML = `${heightAsText}`;
+            if (currentVertical < 0) {
+              window.alert("Maximum altitude reached.");
+            } else {
+              upMove = currentVertical - 10;
+              currentVertical = upMove;
+              rocket.style.transform = `translate(${currentHorizontal}px, ${upMove}px)`;
+              spaceShuttleHeight += 10000;
+              let heightAsText = new Intl.NumberFormat().format(spaceShuttleHeight);
+              shuttleHeightParagraph.innerHTML = `${heightAsText}`;
             }
         }
   });
 
       moveDown.addEventListener("click", event => {
         if (inSpace === true) {
+          if (currentVertical >= 240) {
+            window.alert("Please land instead of crashing to Earth.");
+          } else {
             downMove = currentVertical + 10;
           currentVertical = downMove;
           rocket.style.transform = `translate(${currentHorizontal}px, ${downMove}px)`;
@@ -104,6 +113,7 @@ window.addEventListener("load", function() {
         let heightAsText = new Intl.NumberFormat().format(spaceShuttleHeight);
         shuttleHeightParagraph.innerHTML = `${heightAsText}`;
       }
+    }
   });
 
 });
